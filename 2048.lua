@@ -25,6 +25,8 @@ function NewGame(board_size)
     end
 
     local get_board_size = function () return self.board_size end
+    local get_board = function () return self.board end
+    local get_total_score = function() return self.total_score end
 
     local transpose = function(board)
 
@@ -98,7 +100,7 @@ function NewGame(board_size)
     
 
         for line=2,self.board_size do
-            for column=2,self.board_size do
+            for column=1,self.board_size do
                 if board[line][column] == board[line - 1][column] then
                     self.score = self.score + (board[line][column] * 2)
                     board[line - 1][column] = board[line - 1][column] * 2
@@ -178,6 +180,44 @@ function NewGame(board_size)
 
     end
 
+    local verify_game_state = function()
+
+        for line=1,self.board_size do
+            for column=1,self.board_size do
+                if self.board[line][column] == 0 then
+                    return false
+                end
+            end
+        end
+
+        for line=2,self.board_size do
+            for column=2,self.board_size do
+                if self.board[line][column] ==  self.board[line-1][column] then
+                    return false
+                end
+                if self.board[line][column] ==  self.board[line][column - 1] then
+                    return false
+                end
+            end
+        end
+
+
+        for line=2,self.board_size do
+            if self.board[line][1] == self.board[line - 1][1] then
+                return false
+            end
+        end
+
+        for column=2,self.board_size do
+            if self.board[1][column] == self.board[1][column - 1] then
+                return false
+            end
+        end
+
+        return true
+
+
+    end
 
 
     local confirm_move = function()
@@ -231,6 +271,8 @@ function NewGame(board_size)
                 self.temp_board[i][j] = 0
             end
         end
+        self.total_score = 0
+        self.score = 0
         add_two_or_four()
         add_two_or_four()
         print_table(self.board)
@@ -240,7 +282,10 @@ function NewGame(board_size)
     end
     return {
         get_board_size = get_board_size,
+        get_board = get_board,
         reset_game = reset_game,
-        make_move = make_move
+        make_move = make_move,
+        verify_game_state = verify_game_state,
+        get_total_score = get_total_score
     }
 end
