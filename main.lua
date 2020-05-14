@@ -1,19 +1,7 @@
 require(2048)
 local hex = require("hexmaniac")
 
--- io.write("Please, chose a number for board size: ")
--- local board_size = io.read("*n")
---
--- local game =  NewGame(board_size)
---
--- game.reset_game()
--- game.make_move(0)
--- game.make_move(1)
--- game.make_move(2)
--- game.make_move(3)
---
---
---
+
 function love.load()
     love.graphics.setNewFont(30)
 
